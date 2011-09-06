@@ -41,7 +41,7 @@ module EventCalendar
       strip_start, strip_end = get_start_and_end_dates(shown_date, first_day_of_week)
       events = events_for_date_range(strip_start, strip_end, find_options)
       events << birthdays
-      events = events.flatten
+      events = events.flatten.sort{|a,b| a.start_at <=> b.start_at}
       event_strips = create_event_strips(strip_start, strip_end, events)
       event_strips
     end
@@ -68,8 +68,8 @@ module EventCalendar
     def events_for_date_range(start_d, end_d, find_options = {})
       self.scoped(find_options).find(
         :all,
-        :conditions => [ "(? <= #{self.quoted_table_name}.#{self.end_at_field}) AND (#{self.quoted_table_name}.#{self.start_at_field}< ?)", start_d.to_time.utc, end_d.to_time.utc ],
-        :order => "#{self.quoted_table_name}.#{self.start_at_field} ASC"
+        :conditions => [ "(? <= #{self.quoted_table_name}.#{self.end_at_field}) AND (#{self.quoted_table_name}.#{self.start_at_field}< ?)", start_d.to_time.utc, end_d.to_time.utc ]
+        #:order => "#{self.quoted_table_name}.#{self.start_at_field} ASC"
       )
     end
     
