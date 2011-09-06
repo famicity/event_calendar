@@ -33,13 +33,14 @@ module EventCalendar
 
     # For the given month, find the start and end dates
     # Find all the events within this range, and create event strips for them
-    def event_strips_for_month(shown_date, first_day_of_week=0, find_options = {})
+    def event_strips_for_month(shown_date, first_day_of_week=0, find_options = {}, birthdays = [])
       if first_day_of_week.is_a?(Hash)
         find_options.merge!(first_day_of_week)
         first_day_of_week =  0
       end
       strip_start, strip_end = get_start_and_end_dates(shown_date, first_day_of_week)
       events = events_for_date_range(strip_start, strip_end, find_options)
+      events << birthdays
       event_strips = create_event_strips(strip_start, strip_end, events)
       event_strips
     end
