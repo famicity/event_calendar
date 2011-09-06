@@ -41,6 +41,7 @@ module EventCalendar
       strip_start, strip_end = get_start_and_end_dates(shown_date, first_day_of_week)
       events = events_for_date_range(strip_start, strip_end, find_options)
       events << birthdays
+      events = events.flatten
       event_strips = create_event_strips(strip_start, strip_end, events)
       event_strips
     end
