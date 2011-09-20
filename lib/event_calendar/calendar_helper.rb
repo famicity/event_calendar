@@ -177,7 +177,7 @@ module EventCalendar
           cal << %(ec-today-header ) if options[:show_today] and (day == Date.current)
           cal << %(ec-other-month-header ) if (day < first) || (day > last)
           cal << %(ec-weekend-day-header) if weekend?(day)
-          cal << %(" style="height: #{options[:day_nums_height]}px;">)
+          cal << %(" style="height: #{options[:day_nums_height]}px;" data-d="#{day}">)
           if options[:link_to_day_action]
             cal << day_link(day.day, day, options[:link_to_day_action])
           else
@@ -205,7 +205,7 @@ module EventCalendar
                 no_bg = no_event_bg?(event, options)
                 class_name = event.class.name.tableize.singularize
 
-                cal << %(<td class="ec-event-cell" colspan="#{(dates[1]-dates[0]).to_i + 1}" )
+                cal << %(<td class="ec-event-cell" colspan="#{(dates[1]-dates[0]).to_i + 1}" data-d="#{day}" )
                 cal << %(style="padding-top: #{options[:event_margin]}px;">)
                 cal << %(<div id="ec-#{class_name}-#{event.id}" class="ec-event )
                 if class_name != "event"
@@ -256,7 +256,7 @@ module EventCalendar
 
             else
               # there wasn't an event, so create an empty cell and container
-              cal << %(<td class="ec-event-cell ec-no-event-cell" )
+              cal << %(<td class="ec-event-cell ec-no-event-cell" data-d="#{day}" )
               cal << %(style="padding-top: #{options[:event_margin]}px;">)
               cal << %(<div class="ec-event" )
               cal << %(style="padding-top: #{options[:event_padding_top]}px; )
